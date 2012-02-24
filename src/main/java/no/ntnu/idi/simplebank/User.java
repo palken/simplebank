@@ -8,11 +8,11 @@ public class User {
 	private String surname;
 	private String somethingPrivate;
 	
-	public User(String username, String password, String name, String surname) {
+	public User(String username, String name, String surname, String somethingprivate) {
 		this.username = username;
-		this.password = password;
 		this.first_name =  name;
 		this.surname = surname;
+		this.somethingPrivate = somethingprivate;
 	}
 	
 	public User(String username, String password, String name, String surname, String somethingPrivate) {

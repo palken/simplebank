@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,7 +11,7 @@ import no.ntnu.idi.simplebank.Account;
 import no.ntnu.idi.simplebank.Database;
 import no.ntnu.idi.simplebank.Utilities;
 
-public class AccountOverviewServlet extends HttpServlet {
+public class AccountOverviewServlet extends AbstractLoginServlet {
 
 	/**
 	 * 
@@ -22,12 +21,9 @@ public class AccountOverviewServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		String currentlyLoggedInUser = Utilities.getCurrentlyLoggedInUser(req);
+		super.doGet(req, resp);
 		
-		if (currentlyLoggedInUser == null) {
-			resp.sendRedirect(req.getContextPath() + "/Login");
-			return;
-		}
+		String currentlyLoggedInUser = Utilities.getCurrentlyLoggedInUser(req);
 		
 		Database database = new Database();
 		List<Account> accountsForCurrentlyLoggedInUser 

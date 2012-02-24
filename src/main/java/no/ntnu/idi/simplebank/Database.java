@@ -1,7 +1,6 @@
 package no.ntnu.idi.simplebank;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -88,6 +87,39 @@ public class Database {
 		return null;
 	}
 	
+	public List<User> getAllUsers() {
+		databaseConnection = DatabaseConnectionSingleton.getDatabaseInstance().getConnection();
+		
+		String query = "" +
+				"SELECT username, first_name, last_name, somethingprivate " +
+				"FROM users;";
+		
+		List<User> users = new ArrayList<User>();
+		
+		try {
+			Statement getAllUsersStatement = databaseConnection.createStatement();
+			ResultSet getAllUsersResultSet = getAllUsersStatement.executeQuery(query);
+			
+			while(getAllUsersResultSet.next()) {
+				String username = getAllUsersResultSet.getString("username");
+				String first_name = getAllUsersResultSet.getString("first_name");
+				String last_name = getAllUsersResultSet.getString("last_name");
+				String somethingprivate = getAllUsersResultSet.getString("somethingprivate");
+				
+				User user = new User(username, first_name, last_name, somethingprivate);
+				users.add(user);
+			}
+			
+			return users;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return users; // Return empty list if there are no users
+	}
+	
 	public Database() {
 		
 	}
@@ -125,20 +157,21 @@ public class Database {
 			Statement getAccountStatement = databaseConnection.createStatement();
 			
 			ResultSet accountsResultSet = getAccountStatement.executeQuery("" +
-					"SELECT accountName, accountType, money " +
+					"SELECT accountId, accountName, accountType, money " +
 					"FROM account " +
 					"WHERE usernameaccount = '"+ username + "' ;");
 			
 			List<Account> accountList = new ArrayList<Account>();
 			
 			while(accountsResultSet.next()) {
+				int accountId = accountsResultSet.getInt("accountId");
 				String accountName = accountsResultSet.getString("accountName");
 				String accountType = accountsResultSet.getString("accountType");
 				Double money = accountsResultSet.getDouble("money");
 				
 				User accountOwner = getUser(username);
 				
-				Account account = new Account(accountName, accountType, money, accountOwner);
+				Account account = new Account(accountId, accountName, accountType, money, accountOwner);
 				
 				accountList.add(account);
 			}
@@ -172,6 +205,63 @@ public class Database {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public void performTransaction(int fromAccountId, double transactionAmount,
+			int toAccountId) {
+		databaseConnection = DatabaseConnectionSingleton.getDatabaseInstance().getConnection();
+		
+		double fromAccountMoney = getMoneyFromAccount(fromAccountId);
+		double toAccountMoney = getMoneyFromAccount(toAccountId);
+
+		fromAccountMoney = fromAccountMoney - transactionAmount;
+		toAccountMoney = toAccountMoney + transactionAmount;
+		
+		updateAccountMoney(fromAccountId, fromAccountMoney);
+		updateAccountMoney(toAccountId, toAccountMoney);
+		
+	}
+	
+	private double getMoneyFromAccount(int accountId) {
+		databaseConnection = DatabaseConnectionSingleton.getDatabaseInstance().getConnection();
+		
+		String query = "" +
+				"SELECT money FROM account " +
+				"WHERE accountId = '" + accountId + "';";
+		
+		Statement getMoneyStatement;
+		double money = 0;
+		try {
+			getMoneyStatement = databaseConnection.createStatement();
+			ResultSet getMoneyResultSet = getMoneyStatement.executeQuery(query);
+			
+			while (getMoneyResultSet.next()) {
+				money = getMoneyResultSet.getDouble("money");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return money;
+	}
+	
+	private void updateAccountMoney(int accountId, double money) {
+		databaseConnection = DatabaseConnectionSingleton.getDatabaseInstance().getConnection();
+		
+		String query = "" +
+				"UPDATE account " +
+				"SET money = '" + money + "' " +
+				"WHERE accountId = '" + accountId + "';";
+		
+		try {
+			Statement updateAccountMoneyStatement = databaseConnection.createStatement();
+			updateAccountMoneyStatement.executeUpdate(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 }

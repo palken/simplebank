@@ -24,14 +24,13 @@ public class LoginServlet extends HttpServlet {
 		req.getRequestDispatcher("/WEB-INF/Login.jsp").forward(req, resp);
 	}
 
-
-
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
+		String next = request.getParameter("next");
 		
 		Database database = new Database();
 		boolean authenticated = database.authenticate(username, password);
@@ -42,8 +41,10 @@ public class LoginServlet extends HttpServlet {
 		} else {
 			HttpSession session = request.getSession(true);
 			session.setAttribute("logged_in_user", username);
-			
-			response.sendRedirect(request.getContextPath() + "/Accountoverview");
+			if (next.equals("null")) {
+				response.sendRedirect(request.getContextPath() + "/AccountOverview");
+			}
+			response.sendRedirect(next);
 		}
 		
 	}

@@ -42,6 +42,30 @@
 	   <servlet-class>no.ntnu.idi.simplebank.servlets.CreateAccountServlet</servlet-class>
 	</servlet>
 	
+	<servlet>
+	   <description></description>
+	   <display-name>Admin Users</display-name>
+	   <servlet-name>AdminUsers</servlet-name>
+	   <servlet-class>no.ntnu.idi.simplebank.servlets.UserAdminServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+	   <description></description>
+	   <display-name>Transfer Money</display-name>
+	   <servlet-name>Transfer</servlet-name>
+	   <servlet-class>no.ntnu.idi.simplebank.servlets.TransferServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+	   <servlet-name>Transfer</servlet-name>
+	   <url-pattern>/Transfer</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+	   <servlet-name>AdminUsers</servlet-name>
+	   <url-pattern>/adminusers</url-pattern>
+	</servlet-mapping>
+	
 	<servlet-mapping>
 	   <servlet-name>CreateAccount</servlet-name>
 	   <url-pattern>/CreateAccount</url-pattern>
@@ -66,4 +90,9 @@
 		<servlet-name>Login</servlet-name>
 		<url-pattern>/Login</url-pattern>
 	</servlet-mapping>
+	
+	<servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.css</url-pattern>
+    </servlet-mapping>
 </web-app>

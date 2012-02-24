@@ -1,5 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@include file="header.jsp" %>
 
+<div id="content">
 <form name="input" action="Login" method="POST">
 	<table>
         
@@ -15,10 +17,15 @@
 		<tr>
 			<td>Password</td>
 			<td><input type="password" name="password"></td>
+		    <input type="hidden" name="next" value="<%= request.getParameter("next") %>" />
 		</tr>
+		
 		<tr>
 			<td><input type="submit" value="Submit"></td>
 		</tr>
 
 	</table>
 </form>
+</div>
+
+<%@include file="footer.jsp" %>

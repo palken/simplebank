@@ -3,7 +3,6 @@ package no.ntnu.idi.simplebank.servlets;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,7 +11,7 @@ import no.ntnu.idi.simplebank.Database;
 import no.ntnu.idi.simplebank.User;
 import no.ntnu.idi.simplebank.Utilities;
 
-public class CreateAccountServlet extends HttpServlet {
+public class CreateAccountServlet extends AbstractLoginServlet {
 	
 
 	/**
@@ -24,12 +23,7 @@ public class CreateAccountServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		String currentlyLoggedInUser = Utilities.getCurrentlyLoggedInUser(req);
-		
-		if (currentlyLoggedInUser == null) {
-			resp.sendRedirect(req.getContextPath() + "/Login");
-			return;
-		}
+		super.doGet(req, resp);
 		
 		req.getRequestDispatcher("/WEB-INF/CreateAccount.jsp").forward(req, resp);
 	}
