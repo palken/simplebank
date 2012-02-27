@@ -2,10 +2,14 @@
 <%@include file="header.jsp" %>
 
 <div id="content">
-	<h2>Hello and welcome to our fantastic bank, SimpleBank! </h2>
+	<p>
+	   This simple bank will securily let you store your money and other valuables.
+	   
+	   We use our trusted technology which is fully buzzword compliant to secure your data and perform safe transactions for everybody. Sign up today!
+	</p>
 	
 	<p>
-	    <a href="${pageContext.request.contextPath}/Login">Login</a>
+	    Please log in to administer your account. <a href="${pageContext.request.contextPath}/Login">Login</a>
 	</p>
 	
 

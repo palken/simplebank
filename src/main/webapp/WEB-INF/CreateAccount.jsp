@@ -39,4 +39,8 @@
 	</form>
 </div>
 
+<div id="sidebar">
+    <a href="${pageContext.request.contextPath}/Accountoverview">Accountoverview</a>
+</div>
+
 <%@include file="footer.jsp" %>

@@ -11,4 +11,8 @@
 
 <div id="header">
     <h1>Simplebanking website!</h1>
+    
+    <p>
+        <a href="${pageContext.request.contextPath}/logout">Log out</a>
+    </p>
 </div>

@@ -56,6 +56,18 @@
 	   <servlet-class>no.ntnu.idi.simplebank.servlets.TransferServlet</servlet-class>
 	</servlet>
 	
+	<servlet>
+	   <description></description>
+	   <display-name>Log Out</display-name>
+	   <servlet-name>Logout</servlet-name>
+	   <servlet-class>no.ntnu.idi.simplebank.servlets.LogOutServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+	   <servlet-name>Logout</servlet-name>
+	   <url-pattern>/logout</url-pattern>
+	</servlet-mapping>
+	
 	<servlet-mapping>
 	   <servlet-name>Transfer</servlet-name>
 	   <url-pattern>/Transfer</url-pattern>
