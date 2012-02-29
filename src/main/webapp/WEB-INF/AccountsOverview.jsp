@@ -14,9 +14,9 @@
 	
 		<c:forEach var="account" items="${accounts}">
 		   <tr>
-			   <td><c:out value="${account.accountName}"></c:out>
-			   <td><c:out value="${account.accountType}"></c:out>
-			   <td><c:out value="${account.money}"></c:out>
+			   <td>${account.accountName}</td>
+			   <td>${account.accountType}</td>
+			   <td>${account.money}</td>
 		   </tr>	
 		</c:forEach>
 	  

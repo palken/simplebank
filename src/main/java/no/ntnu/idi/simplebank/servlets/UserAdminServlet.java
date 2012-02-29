@@ -4,13 +4,14 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import no.ntnu.idi.simplebank.Database;
 import no.ntnu.idi.simplebank.User;
 
-public class UserAdminServlet extends AbstractLoginServlet {
+public class UserAdminServlet extends HttpServlet {
 
 	/**
 	 * 
@@ -20,7 +21,6 @@ public class UserAdminServlet extends AbstractLoginServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		super.doGet(req, resp);
 		
 		Database database = new Database();
 		
@@ -30,12 +30,4 @@ public class UserAdminServlet extends AbstractLoginServlet {
 		
 		req.getRequestDispatcher("/WEB-INF/Users.jsp").forward(req, resp);
 	}
-
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		super.doPost(req, resp);
-	}
-
 }

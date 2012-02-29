@@ -127,16 +127,15 @@ public class Database {
 	public boolean authenticate(String username, String password) {
 		try {
 			databaseConnection = DatabaseConnectionSingleton.getDatabaseInstance().getConnection();
-			String query = "SELECT username, password FROM users WHERE username = '" + username + "';";
+			String query = "SELECT username, password FROM users WHERE username = '" + username + "' AND password = '" + password + "';";
 			Statement getuserStatement = databaseConnection.createStatement();
 		
 			ResultSet userResultSet = getuserStatement.executeQuery(query);
 			
 			if (userResultSet.next()) {
 				String resultsetUsername = userResultSet.getString("username");
-				String resultsetPassword = userResultSet.getString("password");
 				
-				if (resultsetUsername.equals(username) && resultsetPassword.equals(password)) {
+				if (resultsetUsername.equals(username)) {
 					return true;
 				}
 			}
