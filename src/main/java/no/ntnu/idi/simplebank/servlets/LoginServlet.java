@@ -3,10 +3,10 @@ package no.ntnu.idi.simplebank.servlets;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import no.ntnu.idi.simplebank.Database;
 
@@ -33,6 +33,7 @@ public class LoginServlet extends HttpServlet {
 		System.out.println(password);
 		String next = request.getParameter("next");
 		
+		
 		Database database = new Database();
 		boolean authenticated = database.authenticate(username, password);
 		
@@ -40,8 +41,9 @@ public class LoginServlet extends HttpServlet {
 			request.setAttribute("login_failed", new Boolean(true));
 			request.getRequestDispatcher("/WEB-INF/Login.jsp").forward(request, response);
 		} else {
-			HttpSession session = request.getSession(true);
-			session.setAttribute("logged_in_user", username);
+			Cookie loginCookie = new Cookie("logged_in_user", username);
+			response.addCookie(loginCookie);
+			
 			if (next.equals("null")) {
 				response.sendRedirect(request.getContextPath() + "/Accountoverview");
 			}

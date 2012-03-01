@@ -2,21 +2,19 @@ package no.ntnu.idi.simplebank;
 
 import java.util.List;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 public class Utilities {
 	
 	public static String getCurrentlyLoggedInUser(HttpServletRequest request) {
-		HttpSession session = request.getSession(false); // We don't want to create a new session
-		
-		if (session != null) {
-			String currentlyLoggedInUser = (String) session.getAttribute("logged_in_user");
-			return currentlyLoggedInUser;
-		} else {
-			return null;
+		Cookie[] cookies = request.getCookies();
+		for (Cookie cookie : cookies) {
+			if (cookie.getName().equals("logged_in_user")){
+				return cookie.getValue();
+			}
 		}
-		
+		return null;
 	}
 
 	public static List<Account> getAccountsForUser(String currentlyLoggedInUser) {
