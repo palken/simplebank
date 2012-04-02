@@ -8,9 +8,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.owasp.appsensor.ASUtilities;
 import org.owasp.appsensor.AppSensorIntrusion;
 import org.owasp.appsensor.AttackDetectorUtils;
 import org.owasp.appsensor.errors.AppSensorException;
+import org.owasp.appsensor.reference.DefaultASUtilities;
 
 import no.ntnu.idi.simplebank.Database;
 
@@ -35,15 +37,6 @@ public class LoginServlet extends HttpServlet {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String next = request.getParameter("next");
-		System.out.println("XSS ATTACK? " + AttackDetectorUtils.verifyXSSAttack(username));
-		System.out.println("SQL ATTACK? " + AttackDetectorUtils.verifySQLInjectionAttack(username));
-		
-		if (AttackDetectorUtils.verifySQLInjectionAttack(username) || AttackDetectorUtils.verifySQLInjectionAttack(password)) {
-			new AppSensorIntrusion(new AppSensorException("CIE1", "User trying to SQL-inject loginfield", "user trying to SQL-inject login"));
-			request.setAttribute("login_failed", new Boolean(true));
-			request.getRequestDispatcher("/WEB-INF/Login.jsp").forward(request, response);
-		}
-		
 		Database database = new Database();
 		boolean authenticated = database.authenticate(username, password);
 		
