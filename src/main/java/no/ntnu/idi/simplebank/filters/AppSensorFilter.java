@@ -11,6 +11,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.owasp.appsensor.AppSensorIntrusion;
 import org.owasp.appsensor.errors.AppSensorException;
@@ -27,6 +28,8 @@ public class AppSensorFilter implements Filter {
 		
 		HttpServletRequest request = (HttpServletRequest)req;
 		
+		checkRemoteIP(request);
+
 		if (!(request.getMethod().equalsIgnoreCase("GET") || request.getMethod().equalsIgnoreCase("POST"))) {
 			
 			new AppSensorIntrusion(new AppSensorException("RE1", "AppSensor RE1 message", "Attacker is using illeagl HTTP method " + request.getMethod() ));
@@ -48,6 +51,22 @@ public class AppSensorFilter implements Filter {
 	public void init(FilterConfig config) throws ServletException {
 		// TODO Auto-generated method stub
 
+	}
+	
+	private void checkRemoteIP(HttpServletRequest request) {
+		String remoteIp = request.getRemoteAddr();
+		// Check if it exists in session
+		HttpSession session = request.getSession();
+		String sessionRemoteIp = (String) session.getAttribute("remoteIP");
+		if (session.getAttribute("remoteIP") != null) {
+			if (!remoteIp.equals(sessionRemoteIp)) {
+				new AppSensorException("SE5", "IP-adress changes mid session",
+						"The IP-adress was changed from " + sessionRemoteIp + " To the new address " + remoteIp);
+			}
+		} else {
+			session.setAttribute("remoteIP", remoteIp);
+		}
+		
 	}
 
 }
