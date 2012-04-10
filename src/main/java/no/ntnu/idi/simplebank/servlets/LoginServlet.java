@@ -1,6 +1,7 @@
 package no.ntnu.idi.simplebank.servlets;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -9,13 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.owasp.appsensor.ASUtilities;
+import no.ntnu.idi.simplebank.Database;
+
 import org.owasp.appsensor.AppSensorIntrusion;
 import org.owasp.appsensor.AttackDetectorUtils;
 import org.owasp.appsensor.errors.AppSensorException;
-import org.owasp.appsensor.reference.DefaultASUtilities;
-
-import no.ntnu.idi.simplebank.Database;
 
 public class LoginServlet extends HttpServlet {
 
@@ -38,6 +37,8 @@ public class LoginServlet extends HttpServlet {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String next = request.getParameter("next");
+		
+
 		
 		if (username == null || password == null) {
 			request.setAttribute("login_failed", new Boolean(true));

@@ -1,7 +1,6 @@
 package no.ntnu.idi.simplebank.filters;
 
 import java.io.IOException;
-import java.net.HttpCookie;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -29,23 +28,47 @@ public class AppSensorFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest)req;
 		
 		checkRemoteIP(request);
-
-		if (!(request.getMethod().equalsIgnoreCase("GET") || request.getMethod().equalsIgnoreCase("POST"))) {
-			
-			new AppSensorIntrusion(new AppSensorException("RE1", "AppSensor RE1 message", "Attacker is using illeagl HTTP method " + request.getMethod() ));
-		}
+		checkUserAgent(request);
+		checkHTTPMethod(request);
+		checkCookies(request);
 		
+		chain.doFilter(request, res);
+		
+
+	}
+
+	private void checkCookies(HttpServletRequest request) {
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
 				if (!(cookie.getName().equals("logged_in_user") || cookie.getName().equals("JSESSIONID"))) {
 					new AppSensorException("SE2", "User adding new cookies", "User added ned cookie " + cookie.getName());
-				}
+				} 
 			}
 		}
-		
-		chain.doFilter(request, res);
+	}
 
+	private void checkHTTPMethod(HttpServletRequest request) {
+		if (!(request.getMethod().equalsIgnoreCase("GET") || request.getMethod().equalsIgnoreCase("POST"))) {
+			
+			new AppSensorIntrusion(new AppSensorException("RE1", "AppSensor RE1 message", "Attacker is using illeagl HTTP method " + request.getMethod() ));
+		}
+	}
+
+	private void checkUserAgent(HttpServletRequest request) {
+		String userAgent = request.getHeader("User-Agent");
+		HttpSession session = request.getSession();
+		
+		if (session.getAttribute("useragent") == null) {
+			session.setAttribute("useragent", userAgent);
+		} else {
+			if (!session.getAttribute("useragent").equals(userAgent)) {
+				new AppSensorException("SE6", "Useragent changed mid-session", 
+						"The user agent have changed from " + session.getAttribute("useragent") +
+						" to " + userAgent);
+				session.setAttribute("useragent", userAgent);
+			}
+		}
 	}
 
 	public void init(FilterConfig config) throws ServletException {
