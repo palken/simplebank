@@ -10,19 +10,19 @@ import java.io.IOException;
 
 public class AbstractLoginServlet extends HttpServlet {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -5171827500118731993L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -5171827500118731993L;
 
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		String currentlyLoggedInUser = Utilities.getCurrentlyLoggedInUser(req);
-		
-		if (currentlyLoggedInUser == null) {
-			resp.sendRedirect(req.getContextPath() + "/Login?next=" + req.getRequestURI());
-		}
-	}
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        String currentlyLoggedInUser = Utilities.getCurrentlyLoggedInUser(req);
+
+        if (currentlyLoggedInUser == null) {
+            resp.sendRedirect(req.getContextPath() + "/Login?next=" + req.getRequestURI());
+        }
+    }
 
 }
