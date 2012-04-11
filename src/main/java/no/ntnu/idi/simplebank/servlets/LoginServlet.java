@@ -1,20 +1,13 @@
 package no.ntnu.idi.simplebank.servlets;
 
-import java.io.IOException;
-import java.util.Map;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import no.ntnu.idi.simplebank.Database;
-
 import org.owasp.appsensor.AppSensorIntrusion;
 import org.owasp.appsensor.AttackDetectorUtils;
 import org.owasp.appsensor.errors.AppSensorException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.*;
+import java.io.IOException;
 
 public class LoginServlet extends HttpServlet {
 
@@ -41,7 +34,7 @@ public class LoginServlet extends HttpServlet {
 
 		
 		if (username == null || password == null) {
-			request.setAttribute("login_failed", new Boolean(true));
+			request.setAttribute("login_failed", Boolean.TRUE);
 			request.getRequestDispatcher("/WEB-INF/Login.jsp").forward(request, response);
 		}
 		
@@ -74,7 +67,7 @@ public class LoginServlet extends HttpServlet {
 		
 		if (AttackDetectorUtils.verifySQLInjectionAttack(username) || AttackDetectorUtils.verifySQLInjectionAttack(password)) {
 			new AppSensorIntrusion(new AppSensorException("CIE1", "User trying to SQL-inject loginfield", "user trying to SQL-inject login"));
-			request.setAttribute("login_failed", new Boolean(true));
+			request.setAttribute("login_failed", Boolean.TRUE);
 			request.getRequestDispatcher("/WEB-INF/Login.jsp").forward(request, response);
 		}
 		
@@ -84,7 +77,7 @@ public class LoginServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 				
 		if (!authenticated) {
-			request.setAttribute("login_failed", new Boolean(true));
+			request.setAttribute("login_failed", Boolean.TRUE);
 			String lastUsername = (String)session.getAttribute("last_login_username");
 			
 			if (lastUsername != null) {

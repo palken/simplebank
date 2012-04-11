@@ -27,40 +27,20 @@ public class User {
 		return username;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
+    public String getPassword() {
 		return password;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getFirst_name() {
+    public String getFirst_name() {
 		return first_name;
 	}
 
-	public void setFirst_name(String name) {
-		this.first_name = name;
-	}
-
-	public String getSurname() {
+    public String getSurname() {
 		return surname;
 	}
 
-	public void setSurname(String surname) {
-		this.surname = surname;
-	}
-
-	public String getSomethingPrivate() {
+    public String getSomethingPrivate() {
 		return somethingPrivate;
-	}
-
-	public void setSomethingPrivate(String somethingPrivate) {
-		this.somethingPrivate = somethingPrivate;
 	}
 
 }

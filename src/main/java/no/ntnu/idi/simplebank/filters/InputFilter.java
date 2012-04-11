@@ -26,8 +26,8 @@ public class InputFilter implements Filter {
 			FilterChain chain) throws IOException, ServletException {
 		
 		HttpServletRequest request = (HttpServletRequest) req;
-		
-		@SuppressWarnings("unchecked")
+
+        @SuppressWarnings("unchecked")
 		Map<String, String[]> parameters = request.getParameterMap();
 		
 		for (String parameter : parameters.keySet()) {

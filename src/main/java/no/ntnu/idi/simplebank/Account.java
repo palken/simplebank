@@ -3,14 +3,12 @@ package no.ntnu.idi.simplebank;
 public class Account {
 	
 	private int accountId;
-	private String accountName;
-	private String accountType;
-	private double money;
-	private User accountOwner;
-	
-	public Account() {}
-	
-	public Account(int accountId, String accountName, String accountType, double money, User accountOwner) {
+	private final String accountName;
+	private final String accountType;
+	private final double money;
+	private final User accountOwner;
+
+    public Account(int accountId, String accountName, String accountType, double money, User accountOwner) {
 		this.accountId = accountId;
 		this.accountName = accountName;
 		this.accountType = accountType;
@@ -28,33 +26,17 @@ public class Account {
 	public String getAccountName() {
 		return accountName;
 	}
-	public void setAccountName(String accountName) {
-		this.accountName = accountName;
-	}
-	public String getAccountType() {
+
+    public String getAccountType() {
 		return accountType;
 	}
-	public void setAccountType(String accountType) {
-		this.accountType = accountType;
-	}
-	public double getMoney() {
+
+    public double getMoney() {
 		return money;
 	}
-	public void setMoney(double money) {
-		this.money = money;
-	}
-	public User getAccountOwner() {
+
+    public User getAccountOwner() {
 		return accountOwner;
 	}
-	public void setAccountOwner(User accountOwner) {
-		this.accountOwner = accountOwner;
-	}
 
-	public int getAccountId() {
-		return accountId;
-	}
-
-	public void setAccountId(int accountId) {
-		this.accountId = accountId;
-	}
 }

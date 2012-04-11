@@ -21,7 +21,7 @@
         
 	
 	<filter>
-	   <description></description>
+	   <description/>
 	   <display-name>AppSensorFilter</display-name>
 	   <filter-name>AppSensorFilter</filter-name>
 	   <filter-class>no.ntnu.idi.simplebank.filters.AppSensorFilter</filter-class>
@@ -33,7 +33,7 @@
 	</filter-mapping>
 	
 	<filter>
-	   <description></description>
+	   <description/>
 	   <display-name>InputFilter</display-name>
 	   <filter-name>InputFilter</filter-name>
 	   <filter-class>no.ntnu.idi.simplebank.filters.InputFilter</filter-class>
@@ -45,7 +45,7 @@
 	</filter-mapping>
 	
 	<filter>
-	   <description></description>
+	   <description/>
 	   <display-name>TrendLoggerFilter</display-name>
 	   <filter-name>TrendLoggerFilter</filter-name>
 	   <filter-class>no.ntnu.idi.simplebank.filters.TrendLoggerFilter</filter-class>
@@ -57,63 +57,63 @@
 	</filter-mapping>
 	
 	<servlet>
-	   <description></description>
+	   <description/>
 	   <display-name>404</display-name>
 	   <servlet-name>404</servlet-name>
 	   <servlet-class>no.ntnu.idi.simplebank.servlets.ErrorServlet</servlet-class>
 	</servlet>
 
 	<servlet>
-		<description></description>
+		<description/>
 		<display-name>Login</display-name>
 		<servlet-name>Login</servlet-name>
 		<servlet-class>no.ntnu.idi.simplebank.servlets.LoginServlet</servlet-class>
 	</servlet>
 
 	<servlet>
-		<description></description>
+		<description/>
 		<display-name>Register</display-name>
 		<servlet-name>Register</servlet-name>
 		<servlet-class>no.ntnu.idi.simplebank.servlets.RegisterServlet</servlet-class>
 	</servlet>
 
 	<servlet>
-		<description></description>
+		<description/>
 		<display-name>Welcome</display-name>
 		<servlet-name>Index</servlet-name>
 		<servlet-class>no.ntnu.idi.simplebank.servlets.IndexServlet</servlet-class>
 	</servlet>
 
 	<servlet>
-		<description></description>
+		<description/>
 		<display-name>Account overview</display-name>
 		<servlet-name>Accountoverview</servlet-name>
 		<servlet-class>no.ntnu.idi.simplebank.servlets.AccountOverviewServlet</servlet-class>
 	</servlet>
 
 	<servlet>
-		<description></description>
+		<description/>
 		<display-name>Create Account</display-name>
 		<servlet-name>CreateAccount</servlet-name>
 		<servlet-class>no.ntnu.idi.simplebank.servlets.CreateAccountServlet</servlet-class>
 	</servlet>
 
 	<servlet>
-		<description></description>
+		<description/>
 		<display-name>Admin Users</display-name>
 		<servlet-name>AdminUsers</servlet-name>
 		<servlet-class>no.ntnu.idi.simplebank.servlets.UserAdminServlet</servlet-class>
 	</servlet>
 
 	<servlet>
-		<description></description>
+		<description/>
 		<display-name>Transfer Money</display-name>
 		<servlet-name>Transfer</servlet-name>
 		<servlet-class>no.ntnu.idi.simplebank.servlets.TransferServlet</servlet-class>
 	</servlet>
 
 	<servlet>
-		<description></description>
+		<description/>
 		<display-name>Log Out</display-name>
 		<servlet-name>Logout</servlet-name>
 		<servlet-class>no.ntnu.idi.simplebank.servlets.LogOutServlet</servlet-class>

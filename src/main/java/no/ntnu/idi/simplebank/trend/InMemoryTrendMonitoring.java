@@ -1,23 +1,19 @@
 package no.ntnu.idi.simplebank.trend;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.owasp.appsensor.errors.AppSensorException;
-import org.owasp.appsensor.trendmonitoring.TrendEvent;
-import org.owasp.appsensor.trendmonitoring.reference.InMemoryTrendDataStore;
 
-public class InMemoryTrendMonitoring {
+import java.util.*;
+
+
+class InMemoryTrendMonitoring {
+	
+	private static final String loginUri = "/simplebank/Login";
+	private static final String logoutUri = "/simplebank/logout";
 
 	// Code fetched from OWASP AppSensor Demoapp2
 	public static void checkUT1() {
 
-		HashMap<String, List<TrendEvent>> trends = InMemoryTrendDataStore
+		HashMap<String, List<SimplebankTrendEvent>> trends = SimplebankInMemoryTrendDataStore
 				.getInstance().getCopyOfAllEventsByUserAddress();
 
 		Calendar cal = new GregorianCalendar();
@@ -25,10 +21,10 @@ public class InMemoryTrendMonitoring {
 		Date oneHourAgo = cal.getTime();
 
 		for (String userAddress : trends.keySet()) {
-			List<TrendEvent> eventsForUser = trends.get(userAddress);
+			List<SimplebankTrendEvent> eventsForUser = trends.get(userAddress);
 			HashMap<String, Integer> resourceUsageMap = new HashMap<String, Integer>();
 
-			for (TrendEvent te : eventsForUser) {
+			for (SimplebankTrendEvent te : eventsForUser) {
 				if (te.getTime().after(oneHourAgo)) { // only check issues in
 														// the last hour
 					String resource = te.getResourceAccessed();
@@ -57,7 +53,7 @@ public class InMemoryTrendMonitoring {
 	}
 
 	public static void checkUT2() {
-		HashMap<String, List<TrendEvent>> trends = InMemoryTrendDataStore
+		HashMap<String, List<SimplebankTrendEvent>> trends = SimplebankInMemoryTrendDataStore
 				.getInstance().getCopyOfAllEventsByUserAddress();
 
 		Calendar cal = new GregorianCalendar();
@@ -65,10 +61,10 @@ public class InMemoryTrendMonitoring {
 		Date fiveMinutesAgo = cal.getTime();
 
 		for (String userAddress : trends.keySet()) {
-			List<TrendEvent> eventsForUser = trends.get(userAddress);
+			List<SimplebankTrendEvent> eventsForUser = trends.get(userAddress);
 			int numberOfAccesses = 0;
 
-			for (TrendEvent trendEvent : eventsForUser) {
+			for (SimplebankTrendEvent trendEvent : eventsForUser) {
 				if (trendEvent.getTime().after(fiveMinutesAgo)) {
 					numberOfAccesses++;
 				}
@@ -85,7 +81,7 @@ public class InMemoryTrendMonitoring {
 	}
 
 	public static void checkUT3() {
-		HashMap<String, List<TrendEvent>> trends = InMemoryTrendDataStore
+		HashMap<String, List<SimplebankTrendEvent>> trends = SimplebankInMemoryTrendDataStore
 				.getInstance().getCopyOfAllEventsByUserAddress();
 
 		Calendar cal = new GregorianCalendar();
@@ -94,10 +90,10 @@ public class InMemoryTrendMonitoring {
 
 		for (String userAddress : trends.keySet()) {
 
-			List<TrendEvent> eventsForUser = trends.get(userAddress);
+			List<SimplebankTrendEvent> eventsForUser = trends.get(userAddress);
 			Date firstAccess = new GregorianCalendar().getTime();
 
-			for (TrendEvent trendEvent : eventsForUser) {
+			for (SimplebankTrendEvent trendEvent : eventsForUser) {
 				if (trendEvent.getTime().before(firstAccess)) {
 					firstAccess = trendEvent.getTime();
 				}
@@ -106,7 +102,7 @@ public class InMemoryTrendMonitoring {
 			int beforeTodayCount = 0;
 			int todayCount = 0;
 
-			for (TrendEvent trendEvent : eventsForUser) {
+			for (SimplebankTrendEvent trendEvent : eventsForUser) {
 				if (trendEvent.getTime().before(oneDayAgo)) {
 					beforeTodayCount++;
 				}
@@ -139,24 +135,24 @@ public class InMemoryTrendMonitoring {
      * check if user deviates from normal access for specific function - sharp increase in usage
      */
     public static void checkUT4() {
-            HashMap<String, List<TrendEvent>> trends = 
-                    InMemoryTrendDataStore.getInstance().getCopyOfAllEventsByUserAddress();
+            HashMap<String, List<SimplebankTrendEvent>> trends =
+                    SimplebankInMemoryTrendDataStore.getInstance().getCopyOfAllEventsByUserAddress();
             
             Calendar cal = new GregorianCalendar();
             cal.add(Calendar.HOUR, -24);    //go back 1 day
             Date oneDayAgo = cal.getTime();
             
             for (String userAddress : trends.keySet()) {
-                    List<TrendEvent> eventsForUser = trends.get(userAddress);
+                    List<SimplebankTrendEvent> eventsForUser = trends.get(userAddress);
                     Set<String> uniqueResourcesForUser = new HashSet<String>();
                     
-                    for (TrendEvent te : eventsForUser) {
+                    for (SimplebankTrendEvent te : eventsForUser) {
                             uniqueResourcesForUser.add(te.getResourceAccessed());
                     }
 
                     for (String resourceAccessedByUser : uniqueResourcesForUser) {
                             Date firstAccess = new GregorianCalendar().getTime();
-                            for (TrendEvent te : eventsForUser) {
+                            for (SimplebankTrendEvent te : eventsForUser) {
                                     if (resourceAccessedByUser.equals(te.getResourceAccessed())) {
                                             if (te.getTime().before(firstAccess)) {
                                                     firstAccess = te.getTime();
@@ -169,7 +165,7 @@ public class InMemoryTrendMonitoring {
                             int beforeTodayCount = 0;
                             int todayCount = 0;
                             
-                            for (TrendEvent te : eventsForUser) {
+                            for (SimplebankTrendEvent te : eventsForUser) {
                                     if (resourceAccessedByUser.equals(te.getResourceAccessed())) {
                                             if (te.getTime().before(oneDayAgo)) {
                                                     beforeTodayCount++;
@@ -201,18 +197,18 @@ public class InMemoryTrendMonitoring {
     }
 		
 	public static void checkNumberOfTransferRequests() {
-		HashMap<String, List<TrendEvent>> trends = 
-                InMemoryTrendDataStore.getInstance().getCopyOfAllEventsByUserAddress();
+		HashMap<String, List<SimplebankTrendEvent>> trends =
+                SimplebankInMemoryTrendDataStore.getInstance().getCopyOfAllEventsByUserAddress();
         
         Calendar cal = new GregorianCalendar();
         cal.add(Calendar.MINUTE, -60);    //go back 1 hour
         Date oneHourAgo = cal.getTime();
 	
         for (String userAddress : trends.keySet()) {
-			List<TrendEvent> trendsForUser = trends.get(userAddress);
+			List<SimplebankTrendEvent> trendsForUser = trends.get(userAddress);
 			
 			int numberOfTransferRequests = 0;
-			for (TrendEvent trendEvent : trendsForUser) {
+			for (SimplebankTrendEvent trendEvent : trendsForUser) {
 				if (trendEvent.getResourceAccessed().equals("/simplebank/Transfer") &&
 						trendEvent.getTime().after(oneHourAgo)) {
 					numberOfTransferRequests++;
@@ -225,6 +221,72 @@ public class InMemoryTrendMonitoring {
 						" have accessed the transfer feature " + numberOfTransferRequests + 
 						" number of times the last hour");
 			}
+		}
+	}
+	
+	public static void checkNumberOfLoginsAndLogouts() {
+		List<SimplebankTrendEvent> trendEvents =
+                SimplebankInMemoryTrendDataStore.getInstance().getCopyOfAllEvents();
+		
+		int numberOfLogins = 0;
+		int numberOfLogouts = 0;
+		
+		Calendar cal = new GregorianCalendar();
+		cal.add(Calendar.MINUTE, -5);
+		Date fiveMinutesAgo = cal.getTime();
+
+		for (SimplebankTrendEvent trendEvent : trendEvents) {
+			if (trendEvent.getTime().after(fiveMinutesAgo)) {
+				if (trendEvent.getResourceAccessed()
+						.equals(loginUri) && trendEvent.getAccessMethod().equals("POST")) {
+					numberOfLogins++;
+				} else if (trendEvent.getResourceAccessed().equals(
+						logoutUri) && trendEvent.getAccessMethod().equals("GET")) {
+					numberOfLogouts++;
+				}
+			}
+		}
+		if (numberOfLogins > 50) {
+			new AppSensorException("STE2", "User mesage STE2",
+					"A large number of login attempts have been made. \n" + 
+					"The total number in the last five minutes is: " + numberOfLogins);
+		}
+		if (numberOfLogouts > 50) {
+			new AppSensorException("STE2", "User mesage STE2",
+					"A large number of logout attempts have been made. \n" + 
+					"The total number in the last five minutes is: " + numberOfLogouts);
+		}
+	}
+	
+	public static void checkNumberOfAccessToASpecificResource() {
+		HashMap<String, List<SimplebankTrendEvent>> trends =
+				SimplebankInMemoryTrendDataStore.getInstance().getCopyOfAllEventsByResource();
+		
+		for (String resource : trends.keySet()) {
+			List<SimplebankTrendEvent> eventsForResouces = trends.get(resource);
+			
+			Calendar cal = new GregorianCalendar();
+			cal.add(Calendar.MINUTE, -5);
+			Date fiveMinutesAgo = cal.getTime();
+			
+			int numberOfAccessesToResource = 0;
+			
+			for (SimplebankTrendEvent trendEvent : eventsForResouces) {
+				if (!trendEvent.getResourceAccessed().equals(loginUri) && ! trendEvent.getResourceAccessed().equals(logoutUri)) {
+					if (trendEvent.getTime().after(fiveMinutesAgo)) {
+						numberOfAccessesToResource++;
+					}
+					
+				}
+			}
+			
+			if (numberOfAccessesToResource > 50) {
+				new AppSensorException("STE3", "AppSensor STE3 exception", 
+						"The resource: " + resource + 
+						" Was accessed: " + numberOfAccessesToResource +
+						" Times in the last five minutes");
+			}
+
 		}
 	}
 

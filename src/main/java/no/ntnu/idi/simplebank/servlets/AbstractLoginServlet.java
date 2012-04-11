@@ -1,13 +1,12 @@
 package no.ntnu.idi.simplebank.servlets;
 
-import java.io.IOException;
+import no.ntnu.idi.simplebank.Utilities;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import no.ntnu.idi.simplebank.Utilities;
+import java.io.IOException;
 
 public class AbstractLoginServlet extends HttpServlet {
 
@@ -23,7 +22,6 @@ public class AbstractLoginServlet extends HttpServlet {
 		
 		if (currentlyLoggedInUser == null) {
 			resp.sendRedirect(req.getContextPath() + "/Login?next=" + req.getRequestURI());
-			return;
 		}
 	}
 

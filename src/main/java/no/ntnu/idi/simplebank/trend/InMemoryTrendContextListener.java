@@ -14,14 +14,17 @@ public class InMemoryTrendContextListener implements ServletContextListener {
 
 	}
 	
-	class TrendMonitoringThread extends Thread {
+	private class TrendMonitoringThread extends Thread {
 		public void run() {
-			while (true) {
+            //noinspection InfiniteLoopStatement
+            while (true) {
 				InMemoryTrendMonitoring.checkUT1();
 				InMemoryTrendMonitoring.checkUT2();
 				InMemoryTrendMonitoring.checkUT3();
 				InMemoryTrendMonitoring.checkUT4();
 				InMemoryTrendMonitoring.checkNumberOfTransferRequests();
+				InMemoryTrendMonitoring.checkNumberOfLoginsAndLogouts();
+                InMemoryTrendMonitoring.checkNumberOfAccessToASpecificResource();
 				
 				try {
 					Thread.sleep(1000*10);
