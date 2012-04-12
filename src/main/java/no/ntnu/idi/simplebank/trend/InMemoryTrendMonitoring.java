@@ -1,5 +1,6 @@
 package no.ntnu.idi.simplebank.trend;
 
+import org.owasp.appsensor.AppSensorIntrusion;
 import org.owasp.appsensor.errors.AppSensorException;
 
 import java.util.*;
@@ -42,11 +43,11 @@ class InMemoryTrendMonitoring {
                 int numberOfAccesses = resourceUsageMap.get(resource);
                 if (numberOfAccesses >= 100) {
                     // over limit, fire violation
-                    new AppSensorException("UT1", "AppSensorUser Message UT1",
+                    new AppSensorIntrusion(new AppSensorException("UT1", "AppSensorUser Message UT1",
                             "Attacker at address [" + userAddress
                                     + "] has sent [" + numberOfAccesses
                                     + "] requests to resource [" + resource
-                                    + "] in the last hour");
+                                    + "] in the last hour"));
                 }
             }
         }
@@ -71,11 +72,11 @@ class InMemoryTrendMonitoring {
             }
 
             if (numberOfAccesses > 300) {
-                new AppSensorException("UT2", "AppSensorUser Message UT2",
+                new AppSensorIntrusion(new AppSensorException("UT2", "AppSensorUser Message UT2",
                         "Attacker at address: " + userAddress
                                 + "  have accessed the site "
                                 + numberOfAccesses
-                                + " Times the last five minutes");
+                                + " Times the last five minutes"));
             }
         }
     }
@@ -123,9 +124,9 @@ class InMemoryTrendMonitoring {
             long average = beforeTodayCount / differenceInDays;
 
             if (todayCount > (average * 20)) {
-                new AppSensorException("UT3", "AppSensor UT3 message",
+                new AppSensorIntrusion(new AppSensorException("UT3", "AppSensor UT3 message",
                         "The user at address " + userAddress + " have a increased traffic of 20 times compared to previous traffic \n" +
-                                "The average was: " + average + " while todays count is: " + todayCount);
+                                "The average was: " + average + " while todays count is: " + todayCount));
             }
 
         }
@@ -188,9 +189,9 @@ class InMemoryTrendMonitoring {
 
                 if (todayCount > (average * 20)) {      //if usage jumps more than 20X average
                     //over limit, fire violation
-                    new AppSensorException("UT4", "AppSensorUser Message UT4", "Attacker at address [" + userAddress + "] has sent [" +
+                    new AppSensorIntrusion(new AppSensorException("UT4", "AppSensorUser Message UT4", "Attacker at address [" + userAddress + "] has sent [" +
                             todayCount + "] requests to the resource [" + resourceAccessedByUser + "] in the last day when the previous per-day access average" +
-                            "for this user was [" + average + "]");
+                            "for this user was [" + average + "]"));
                 }
             }
         }
@@ -216,10 +217,10 @@ class InMemoryTrendMonitoring {
             }
 
             if (numberOfTransferRequests > 30) {
-                new AppSensorException("UT4", "user using transfer money feature too much",
+                new AppSensorIntrusion(new AppSensorException("UT4", "user using transfer money feature too much",
                         "A user from address: " + userAddress +
                                 " have accessed the transfer feature " + numberOfTransferRequests +
-                                " number of times the last hour");
+                                " number of times the last hour"));
             }
         }
     }
@@ -247,14 +248,14 @@ class InMemoryTrendMonitoring {
             }
         }
         if (numberOfLogins > 50) {
-            new AppSensorException("STE2", "User mesage STE2",
+            new AppSensorIntrusion(new AppSensorException("STE2", "User mesage STE2",
                     "A large number of login attempts have been made. \n" +
-                            "The total number in the last five minutes is: " + numberOfLogins);
+                            "The total number in the last five minutes is: " + numberOfLogins));
         }
         if (numberOfLogouts > 50) {
-            new AppSensorException("STE2", "User mesage STE2",
+            new AppSensorIntrusion(new AppSensorException("STE2", "User mesage STE2",
                     "A large number of logout attempts have been made. \n" +
-                            "The total number in the last five minutes is: " + numberOfLogouts);
+                            "The total number in the last five minutes is: " + numberOfLogouts));
         }
     }
 
@@ -281,10 +282,10 @@ class InMemoryTrendMonitoring {
             }
 
             if (numberOfAccessesToResource > 50) {
-                new AppSensorException("STE3", "AppSensor STE3 exception",
+                new AppSensorIntrusion(new AppSensorException("STE3", "AppSensor STE3 exception",
                         "The resource: " + resource +
                                 " Was accessed: " + numberOfAccessesToResource +
-                                " Times in the last five minutes");
+                                " Times in the last five minutes"));
             }
 
         }

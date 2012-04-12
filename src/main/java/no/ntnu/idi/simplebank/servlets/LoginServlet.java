@@ -11,9 +11,6 @@ import java.io.IOException;
 
 public class LoginServlet extends HttpServlet {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 1613861886766248905L;
 
     @Override
@@ -52,14 +49,14 @@ public class LoginServlet extends HttpServlet {
             new AppSensorIntrusion(new AppSensorException("AE8", "Username-field is empty", "Username-field is empty"));
         }
         if (username.length() > 100 || username.length() < 2) {
-            new AppSensorException("AE4", "Unexpected quantity in username", "Unexpected number of characters in username " + username.length());
+            new AppSensorIntrusion(new AppSensorException("AE4", "Unexpected quantity in username", "Unexpected number of characters in username " + username.length()));
         }
 
         if (password.isEmpty()) {
             new AppSensorIntrusion(new AppSensorException("AE9", "Password-field is empty", "Password-field is empty"));
         }
         if (password.length() > 100 || password.length() < 2) {
-            new AppSensorException("AE4", "Unexpected quantity in password", "Unexpected number of characters in password " + password.length());
+            new AppSensorIntrusion(new AppSensorException("AE4", "Unexpected quantity in password", "Unexpected number of characters in password " + password.length()));
         }
 
 
@@ -80,7 +77,7 @@ public class LoginServlet extends HttpServlet {
 
             if (lastUsername != null) {
                 if (!username.equals(lastUsername) && !lastUsername.equals("null")) {
-                    new AppSensorException("AE1", "User trying different usernames", "User trying different username");
+                    new AppSensorIntrusion(new AppSensorException("AE1", "User trying different usernames", "User trying different username"));
                 }
             }
 

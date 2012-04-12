@@ -1,5 +1,6 @@
 package no.ntnu.idi.simplebank.filters;
 
+import org.owasp.appsensor.AppSensorIntrusion;
 import org.owasp.appsensor.AttackDetectorUtils;
 import org.owasp.appsensor.errors.AppSensorException;
 
@@ -24,21 +25,21 @@ public class InputFilter implements Filter {
 
         for (String parameter : parameters.keySet()) {
             if (AttackDetectorUtils.verifySQLInjectionAttack(parameters.get(parameter)[0])) {
-                new AppSensorException("CIE1", "User trying to perform a SQL-injection",
+                new AppSensorIntrusion(new AppSensorException("CIE1", "User trying to perform a SQL-injection",
                         "A user is likely performing a SQL-injection attack with the string: " +
-                                parameters.get(parameter)[0]);
+                                parameters.get(parameter)[0]));
             }
 
             if (AttackDetectorUtils.verifyXSSAttack(parameters.get(parameter)[0])) {
-                new AppSensorException("IE1", "User is trying an XSS-attack",
+                new AppSensorIntrusion(new AppSensorException("IE1", "User is trying an XSS-attack",
                         "A user is likely trying an XSS attack with the string: " +
-                                parameters.get(parameter)[0]);
+                                parameters.get(parameter)[0]));
             }
 
             if (!AttackDetectorUtils.verifyNullByteDoesNotExist(parameters.get(parameter)[0])) {
-                new AppSensorException("CIE3", "user is trying a null byte attack",
+                new AppSensorIntrusion(new AppSensorException("CIE3", "user is trying a null byte attack",
                         "A user is trying a null byte injection in the following string: " +
-                                parameters.get(parameter)[0]);
+                                parameters.get(parameter)[0]));
             }
 
         }

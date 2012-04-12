@@ -1,6 +1,7 @@
 package no.ntnu.idi.simplebank.filters;
 
 import org.owasp.appsensor.AppSensorIntrusion;
+import org.owasp.appsensor.AttackDetectorUtils;
 import org.owasp.appsensor.errors.AppSensorException;
 
 import javax.servlet.*;
@@ -36,16 +37,16 @@ public class AppSensorFilter implements Filter {
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if (!(cookie.getName().equals("logged_in_user") || cookie.getName().equals("JSESSIONID"))) {
-                    new AppSensorException("SE2", "User adding new cookies", "User added ned cookie " + cookie.getName());
+                    new AppSensorIntrusion(new AppSensorException("SE2", "User adding new cookies", "User added ned cookie " + cookie.getName()));
                 }
             }
         }
     }
 
     private void checkHTTPMethod(HttpServletRequest request) {
-        if (!(request.getMethod().equalsIgnoreCase("GET") || request.getMethod().equalsIgnoreCase("POST"))) {
-
-            new AppSensorIntrusion(new AppSensorException("RE1", "AppSensor RE1 message", "Attacker is using illeagl HTTP method " + request.getMethod()));
+        if (!(AttackDetectorUtils.verifyValidRequestMethod(request, "GET") || AttackDetectorUtils.verifyValidRequestMethod(request, "POST"))) {
+            new AppSensorIntrusion(new AppSensorException("RE1", "Attacker is using Illegal HTTP-method", "" +
+                    "An attacker is using an illegal HTTP method: " + request.getMethod()));
         }
     }
 
@@ -57,9 +58,9 @@ public class AppSensorFilter implements Filter {
             session.setAttribute("useragent", userAgent);
         } else {
             if (!session.getAttribute("useragent").equals(userAgent)) {
-                new AppSensorException("SE6", "Useragent changed mid-session",
+                new AppSensorIntrusion(new AppSensorException("SE6", "Useragent changed mid-session",
                         "The user agent have changed from " + session.getAttribute("useragent") +
-                                " to " + userAgent);
+                                " to " + userAgent));
                 session.setAttribute("useragent", userAgent);
             }
         }
@@ -77,8 +78,8 @@ public class AppSensorFilter implements Filter {
         String sessionRemoteIp = (String) session.getAttribute("remoteIP");
         if (session.getAttribute("remoteIP") != null) {
             if (!remoteIp.equals(sessionRemoteIp)) {
-                new AppSensorException("SE5", "IP-adress changes mid session",
-                        "The IP-adress was changed from " + sessionRemoteIp + " To the new address " + remoteIp);
+                new AppSensorIntrusion(new AppSensorException("SE5", "IP-adress changes mid session",
+                        "The IP-adress was changed from " + sessionRemoteIp + " To the new address " + remoteIp));
             }
         } else {
             session.setAttribute("remoteIP", remoteIp);

@@ -28,39 +28,20 @@ public class SimplebankTrendEvent {
         return accessMethod;
     }
 
-    public void setAccessMethod(String accessMethod) {
-        this.accessMethod = accessMethod;
-    }
-
     public Date getTime() {
         return time;
-    }
-
-    public void setTime(Date time) {
-        this.time = time;
     }
 
     public String getResourceAccessed() {
         return resourceAccessed;
     }
 
-    public void setResourceAccessed(String resourceAccessed) {
-        this.resourceAccessed = resourceAccessed;
-    }
-
     public String getAccessedByName() {
         return accessedByName;
-    }
-
-    public void setAccessedByName(String accessedByName) {
-        this.accessedByName = accessedByName;
     }
 
     public String getAccessedByAddress() {
         return accessedByAddress;
     }
 
-    public void setAccessedByAddress(String accessedByAddress) {
-        this.accessedByAddress = accessedByAddress;
-    }
 }
