@@ -29,8 +29,6 @@ public class AppSensorFilter implements Filter {
         checkCookies(request);
 
         chain.doFilter(request, res);
-
-
     }
 
     private void checkCookies(HttpServletRequest request) {
@@ -48,11 +46,6 @@ public class AppSensorFilter implements Filter {
         AppSensorSecurityConfiguration assc = (AppSensorSecurityConfiguration)AppSensorSecurityConfiguration.getInstance();
         List<String> allHttpMethods = assc.getAllHttpMethods();
         List<String> validHttpMethods = assc.getValidHttpMethods();
-        System.out.println("MEH");
-        for (String httpMethod: validHttpMethods) {
-            System.out.println("HEia");
-            System.out.println(httpMethod);
-        }
 
         if (!(validHttpMethods.contains(request.getMethod()))) {
             new AppSensorIntrusion(new AppSensorException("RE1", "An appsensor RE1 message", "" +
@@ -64,7 +57,6 @@ public class AppSensorFilter implements Filter {
                     "An attacker is using a non-existent HTTP-method: " + request.getMethod()));
         }
     }
-
     private void checkUserAgent(HttpServletRequest request) {
         String userAgent = request.getHeader("User-Agent");
         HttpSession session = request.getSession();
