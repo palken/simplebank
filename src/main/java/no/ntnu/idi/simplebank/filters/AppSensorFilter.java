@@ -1,7 +1,7 @@
 package no.ntnu.idi.simplebank.filters;
 
 import org.owasp.appsensor.AppSensorIntrusion;
-import org.owasp.appsensor.AttackDetectorUtils;
+import org.owasp.appsensor.AppSensorSecurityConfiguration;
 import org.owasp.appsensor.errors.AppSensorException;
 
 import javax.servlet.*;
@@ -9,6 +9,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 public class AppSensorFilter implements Filter {
 
@@ -44,9 +45,23 @@ public class AppSensorFilter implements Filter {
     }
 
     private void checkHTTPMethod(HttpServletRequest request) {
-        if (!(AttackDetectorUtils.verifyValidRequestMethod(request, "GET") || AttackDetectorUtils.verifyValidRequestMethod(request, "POST"))) {
-            new AppSensorIntrusion(new AppSensorException("RE1", "Attacker is using Illegal HTTP-method", "" +
-                    "An attacker is using an illegal HTTP method: " + request.getMethod()));
+        AppSensorSecurityConfiguration assc = (AppSensorSecurityConfiguration)AppSensorSecurityConfiguration.getInstance();
+        List<String> allHttpMethods = assc.getAllHttpMethods();
+        List<String> validHttpMethods = assc.getValidHttpMethods();
+        System.out.println("MEH");
+        for (String httpMethod: validHttpMethods) {
+            System.out.println("HEia");
+            System.out.println(httpMethod);
+        }
+
+        if (!(validHttpMethods.contains(request.getMethod()))) {
+            new AppSensorIntrusion(new AppSensorException("RE1", "An appsensor RE1 message", "" +
+                    "An attacker is using an illegal HTTP-method for this application: " + request.getMethod()));
+        }
+
+        if (!(allHttpMethods.contains(request.getMethod()))) {
+            new AppSensorIntrusion(new AppSensorException("RE2", "An appsensor RE2 message",
+                    "An attacker is using a non-existent HTTP-method: " + request.getMethod()));
         }
     }
 

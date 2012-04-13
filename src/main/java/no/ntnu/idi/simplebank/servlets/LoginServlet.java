@@ -73,6 +73,18 @@ public class LoginServlet extends HttpServlet {
 
         if (!authenticated) {
             request.setAttribute("login_failed", Boolean.TRUE);
+            Integer numberOfLoginAttempts = (Integer) session.getAttribute("numberOfLoginAttempts");
+            if (numberOfLoginAttempts == null) {
+                numberOfLoginAttempts = 1;
+                session.setAttribute("numberOfLoginAttempts", numberOfLoginAttempts);
+            } else {
+                numberOfLoginAttempts = numberOfLoginAttempts+1;
+                if (numberOfLoginAttempts > 10 ) {
+                    new AppSensorIntrusion(new AppSensorException("AE3", "AppSensor AE3 message",
+                            "A user have had over 10 failed login attempts from address: " + request.getRemoteAddr()));
+                }
+                session.setAttribute("numberOfLoginAttempts", numberOfLoginAttempts);
+            }
             String lastUsername = (String) session.getAttribute("last_login_username");
 
             if (lastUsername != null) {
