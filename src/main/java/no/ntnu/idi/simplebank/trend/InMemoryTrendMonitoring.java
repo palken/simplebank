@@ -123,7 +123,7 @@ class InMemoryTrendMonitoring {
 
             long average = beforeTodayCount / differenceInDays;
 
-            if (todayCount > (average * 20)) {
+            if (todayCount > (average * 20) && average > 0) {
                 new AppSensorIntrusion(new AppSensorException("UT3", "AppSensor UT3 message",
                         "The user at address " + userAddress + " have a increased traffic of 20 times compared to previous traffic \n" +
                                 "The average was: " + average + " while todays count is: " + todayCount));
@@ -187,7 +187,7 @@ class InMemoryTrendMonitoring {
 
                 long average = beforeTodayCount / differenceInDays;
 
-                if (todayCount > (average * 20)) {      //if usage jumps more than 20X average
+                if (todayCount > (average * 20) && average > 0) {      //if usage jumps more than 20X average
                     //over limit, fire violation
                     new AppSensorIntrusion(new AppSensorException("UT4", "AppSensorUser Message UT4", "Attacker at address [" + userAddress + "] has sent [" +
                             todayCount + "] requests to the resource [" + resourceAccessedByUser + "] in the last day when the previous per-day access average" +

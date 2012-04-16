@@ -25,6 +25,7 @@ public class ExpectOnlyGetFilter implements Filter {
             new AppSensorIntrusion(new AppSensorException("RE4", "An RE4 user exception",
                     "An attacker is sending a POST-request to a page which only accepts GET"));
         }
+        filterChain.doFilter(request, servletResponse);
     }
 
     @Override

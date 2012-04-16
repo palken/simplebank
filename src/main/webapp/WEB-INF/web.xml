@@ -133,6 +133,18 @@
 		<servlet-class>no.ntnu.idi.simplebank.servlets.LogOutServlet</servlet-class>
 	</servlet>
 
+    <servlet>
+        <description/>
+        <display-name>AppSensorIntrusionEvents</display-name>
+        <servlet-name>AppSensorIntrusionEvents</servlet-name>
+        <servlet-class>no.ntnu.idi.simplebank.servlets.ViewAppSensorEventsServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AppSensorIntrusionEvents</servlet-name>
+        <url-pattern>/events</url-pattern>
+    </servlet-mapping>
+
 	<servlet-mapping>
 		<servlet-name>Logout</servlet-name>
 		<url-pattern>/logout</url-pattern>

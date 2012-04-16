@@ -39,6 +39,12 @@
     	<artifactId>jstl</artifactId>
     	<version>1.2</version>
     </dependency>
+      <dependency>
+          <groupId>org.owasp</groupId>
+          <artifactId>antisamy</artifactId>
+          <version>1.4</version>
+      </dependency>
+
   </dependencies>
   <build>
     <finalName>simplebank</finalName>
