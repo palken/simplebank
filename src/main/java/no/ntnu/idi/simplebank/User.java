@@ -2,11 +2,11 @@ package no.ntnu.idi.simplebank;
 
 public class User {
 
-    private String username;
+    private final String username;
     private String password;
-    private String first_name;
-    private String surname;
-    private String somethingPrivate;
+    private final String first_name;
+    private final String surname;
+    private final String somethingPrivate;
 
     public User(String username, String name, String surname, String somethingprivate) {
         this.username = username;

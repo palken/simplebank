@@ -9,11 +9,11 @@ import java.util.Date;
  * Time: 14:44
  */
 public class SimplebankTrendEvent {
-    private Date time;
-    private String resourceAccessed;
-    private String accessedByName;
-    private String accessedByAddress;
-    private String accessMethod;
+    private final Date time;
+    private final String resourceAccessed;
+    private final String accessedByName;
+    private final String accessedByAddress;
+    private final String accessMethod;
 
     public SimplebankTrendEvent(Date time, String resourceAccessed,
                                 String accessedByName, String accessedByAddress, String accessMethod) {

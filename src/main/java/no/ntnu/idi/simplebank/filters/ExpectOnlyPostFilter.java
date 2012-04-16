@@ -13,7 +13,7 @@ import java.io.IOException;
  * Date: 4/13/12
  * Time: 13:43
  */
-public class ExpectOnlyPostFilter implements Filter {
+class ExpectOnlyPostFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
     }
