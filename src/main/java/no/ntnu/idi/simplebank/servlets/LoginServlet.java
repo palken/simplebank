@@ -34,7 +34,7 @@ public class LoginServlet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/Login.jsp").forward(request, response);
         }
 
-        if (!(request.getParameterMap().containsKey("username")) || !(request.getParameterMap().containsKey("username"))) {
+        if (!(request.getParameterMap().containsKey("username")) || !(request.getParameterMap().containsKey("password"))) {
             new AppSensorIntrusion(new AppSensorException("IE4", "User tampering with the POST-parameters", "A user is tampering with the POST-parameteres by removing some"));
         }
 

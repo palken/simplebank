@@ -3,6 +3,8 @@ package no.ntnu.idi.simplebank.servlets;
 import no.ntnu.idi.simplebank.Account;
 import no.ntnu.idi.simplebank.Database;
 import no.ntnu.idi.simplebank.Utilities;
+import org.owasp.appsensor.AppSensorIntrusion;
+import org.owasp.appsensor.errors.AppSensorException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -50,6 +52,13 @@ public class TransferServlet extends AbstractLoginServlet {
             fromAccountId = Integer.parseInt(fromAccount);
             doubleAmount = Double.parseDouble(amount);
             toAccountId = Integer.parseInt(toAccount);
+
+            if (doubleAmount > 10000) {
+                new AppSensorIntrusion(new AppSensorException("CU1", "A user is trying to transfer a large amount",
+                        "The transaction from account: " + fromAccountId +
+                        " is transferring a large amount: " + doubleAmount +
+                        " to the account: " + toAccountId));
+            }
 
             Database database = new Database();
             database.performTransaction(fromAccountId, doubleAmount, toAccountId);

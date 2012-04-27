@@ -12,7 +12,7 @@ public class DatabaseConnectionSingleton {
     private DatabaseConnectionSingleton() {
         try {
             Class.forName("org.sqlite.JDBC");
-            databaseconnection = DriverManager.getConnection("jdbc:sqlite:simplebank.db");
+            databaseconnection = DriverManager.getConnection("jdbc:sqlite:/tmp/simplebank.db");
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

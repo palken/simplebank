@@ -159,6 +159,18 @@
         <servlet-class>no.ntnu.idi.simplebank.servlets.ViewAppSensorEventsServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <description/>
+        <display-name>CreateDatabaseServlet</display-name>
+        <servlet-name>CreateDatabaseServlet</servlet-name>
+        <servlet-class>no.ntnu.idi.simplebank.servlets.CreateDBServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>CreateDatabaseServlet</servlet-name>
+        <url-pattern>/createdatabase</url-pattern>
+    </servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>AppSensorIntrusionEvents</servlet-name>
         <url-pattern>/events</url-pattern>

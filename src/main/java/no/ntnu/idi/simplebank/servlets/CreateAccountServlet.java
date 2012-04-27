@@ -4,6 +4,8 @@ import no.ntnu.idi.simplebank.Account;
 import no.ntnu.idi.simplebank.Database;
 import no.ntnu.idi.simplebank.User;
 import no.ntnu.idi.simplebank.Utilities;
+import org.owasp.appsensor.AppSensorIntrusion;
+import org.owasp.appsensor.errors.AppSensorException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -47,6 +49,11 @@ public class CreateAccountServlet extends AbstractLoginServlet {
 
         Database database = new Database();
         User accountOwner = database.getUser(user);
+        if (moneyDouble > 10000) {
+            new AppSensorIntrusion(new AppSensorException("CU2", "User is making new account with high amount of money",
+                    "A user: " + accountOwner.getFirst_name() +
+                    " is making an account with a large amount of money: " + moneyDouble));
+        }
         Account account = new Account(accountName, accountType, moneyDouble, accountOwner);
         database.addAccount(account);
 
