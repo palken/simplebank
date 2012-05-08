@@ -27,8 +27,16 @@ public class AppSensorFilter implements Filter {
         checkUserAgent(request);
         checkHTTPMethod(request);
         checkCookies(request);
+        checkReadmeFile(request);
 
         chain.doFilter(request, res);
+    }
+
+    private void checkReadmeFile(HttpServletRequest request) {
+        if (request.getServletPath().contains("README")) {
+            new AppSensorIntrusion(new AppSensorException("ACE1", "ACE1 user exception",
+                    "A user is trying to access the README.txt file"));
+        }
     }
 
     private void checkCookies(HttpServletRequest request) {

@@ -14,6 +14,7 @@ import java.io.IOException;
  * Time: 13:46
  */
 public class ExpectOnlyGetFilter implements Filter {
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
     }

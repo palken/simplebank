@@ -33,6 +33,11 @@ public class CreateAccountServlet extends AbstractLoginServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
+        String currentlyLoggedInUser = Utilities.getCurrentlyLoggedInUser(req);
+        if (currentlyLoggedInUser == null) {
+            new AppSensorIntrusion(new AppSensorException("ACE3", "ACE3 User exception", "An unauthenticated user is trying to access create account which requires authentication"));
+        }
+
         String accountName = req.getParameter("accountName");
         String accountType = req.getParameter("accountType");
         String money = req.getParameter("money");
