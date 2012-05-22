@@ -101,8 +101,10 @@ public class LoginServlet extends HttpServlet {
 
             if (next.equals("null")) {
                 response.sendRedirect(request.getContextPath() + "/Accountoverview");
+            } else {
+                response.sendRedirect(next);
             }
-            response.sendRedirect(next);
+
         }
 
     }

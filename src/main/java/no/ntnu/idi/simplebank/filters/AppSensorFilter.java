@@ -18,6 +18,11 @@ public class AppSensorFilter implements Filter {
 
     }
 
+    public void init(FilterConfig config) throws ServletException {
+        // TODO Auto-generated method stub
+
+    }
+
     public void doFilter(ServletRequest req, ServletResponse res,
                          FilterChain chain) throws IOException, ServletException {
 
@@ -79,11 +84,6 @@ public class AppSensorFilter implements Filter {
                 session.setAttribute("useragent", userAgent);
             }
         }
-    }
-
-    public void init(FilterConfig config) throws ServletException {
-        // TODO Auto-generated method stub
-
     }
 
     private void checkRemoteIP(HttpServletRequest request) {

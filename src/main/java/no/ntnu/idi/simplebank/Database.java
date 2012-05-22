@@ -34,6 +34,10 @@ public class Database {
                     "money REAL NOT NULL, " +
                     "usernameaccount VARCHAR(30) NOT NULL, " +
                     "FOREIGN KEY (usernameaccount) REFERENCES users(username))");
+
+            createTables.execute("" +
+                "INSERT INTO users VALUES(" +
+                "'admin', 'admin', 'admin', 'admin', 'admin')");
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

@@ -28,6 +28,16 @@ public class UserAdminServlet extends HttpServlet {
         if (loggedInUser == null) {
             new AppSensorIntrusion(new AppSensorException("ACE3", "AppSensor ACE3 exception",
                    "A user is trying to access users servlet without being authorized"));
+            resp.sendRedirect(req.getContextPath() + "/Login");
+            return;
+
+        } else {
+            if (!loggedInUser.equals("admin")) {
+                new AppSensorIntrusion(new AppSensorException("ACE3", "AppSensor ACE3 exception",
+                        "A user which is not the admin user is trying to access the users servlet"));
+                resp.sendRedirect(req.getContextPath() + "/Login");
+                return;
+            }
         }
 
         Database database = new Database();
