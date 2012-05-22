@@ -46,12 +46,29 @@ public class AppSensorFilter implements Filter {
 
     private void checkCookies(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
+
+        HttpSession session = request.getSession();
+        String session_cookie_username;
+
+        if (session.getAttribute("logged_in_user") == null) {
+            session_cookie_username = "";
+        } else {
+            session_cookie_username = (String)session.getAttribute("logged_in_user");
+        }
+
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if (!(cookie.getName().equals("logged_in_user") || cookie.getName().equals("JSESSIONID"))) {
                     new AppSensorIntrusion(new AppSensorException("SE2", "User adding new cookies", "User added ned cookie " + cookie.getName()));
+                } else if (cookie.getName().equals("logged_in_user")) {
+                    if (!session_cookie_username.equals(cookie.getValue())) {
+                        new AppSensorIntrusion(new AppSensorException("SE4", "User changing logincookie", "User changed username in logincookie from " + session_cookie_username +
+                            " to " + cookie.getValue()));
+                    }
                 }
             }
+
+
         }
     }
 

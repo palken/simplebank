@@ -98,9 +98,13 @@ public class LoginServlet extends HttpServlet {
         } else {
             Cookie loginCookie = new Cookie("logged_in_user", username);
             response.addCookie(loginCookie);
+            session.setAttribute("logged_in_user", username);
+            //response.setHeader("Cache-Control","private, no-store, no-cache, must-revalidate, post-check=0, pre-check=0");
+
 
             if (next.equals("null")) {
                 response.sendRedirect(request.getContextPath() + "/Accountoverview");
+                //request.getRequestDispatcher("/WEB-INF/AccountsOverview.jsp").forward(request,response);
             } else {
                 response.sendRedirect(next);
             }

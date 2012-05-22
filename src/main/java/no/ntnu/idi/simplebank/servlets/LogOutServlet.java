@@ -1,10 +1,7 @@
 package no.ntnu.idi.simplebank.servlets;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import java.io.IOException;
 
 public class LogOutServlet extends HttpServlet {
@@ -25,6 +22,9 @@ public class LogOutServlet extends HttpServlet {
                 resp.addCookie(cookie);
             }
         }
+
+        HttpSession session = req.getSession();
+        session.removeAttribute("logged_in_user");
 
         req.getRequestDispatcher("/WEB-INF/index.jsp").forward(req, resp);
     }
