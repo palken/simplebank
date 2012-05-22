@@ -64,6 +64,7 @@ public class AppSensorFilter implements Filter {
                     if (!session_cookie_username.equals(cookie.getValue())) {
                         new AppSensorIntrusion(new AppSensorException("SE4", "User changing logincookie", "User changed username in logincookie from " + session_cookie_username +
                             " to " + cookie.getValue()));
+                        session.setAttribute("logged_in_user", cookie.getValue());
                     }
                 }
             }
@@ -112,6 +113,7 @@ public class AppSensorFilter implements Filter {
             if (!remoteIp.equals(sessionRemoteIp)) {
                 new AppSensorIntrusion(new AppSensorException("SE5", "IP-adress changes mid session",
                         "The IP-adress was changed from " + sessionRemoteIp + " To the new address " + remoteIp));
+                session.setAttribute("remoteIP", remoteIp);
             }
         } else {
             session.setAttribute("remoteIP", remoteIp);
