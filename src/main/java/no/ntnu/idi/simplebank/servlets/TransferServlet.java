@@ -58,6 +58,20 @@ public class TransferServlet extends AbstractLoginServlet {
             doubleAmount = Double.parseDouble(amount);
             toAccountId = Integer.parseInt(toAccount);
 
+            List<Account> currentlyLoggedInUsersAccounts = Utilities.getAccountsForUser(currentlyLoggedInUser);
+            boolean isAccountOwnedByCurrentlyLoggedInUser = false;
+            for (Account currentlyLoggedInUsersAccount : currentlyLoggedInUsersAccounts) {
+                if (currentlyLoggedInUsersAccount.getAccountId() == fromAccountId) {
+                    isAccountOwnedByCurrentlyLoggedInUser = true;
+                }
+            }
+
+            if (!isAccountOwnedByCurrentlyLoggedInUser) {
+                new AppSensorIntrusion(new AppSensorException("ACE2", "A user have triggered a ACE2 alert", "" +
+                        "The user: " + currentlyLoggedInUser + " is trying to transfer money from account: " +
+                        fromAccountId + " which he does not own"));
+            }
+
             if (doubleAmount > 10000) {
                 new AppSensorIntrusion(new AppSensorException("CU1", "A user is trying to transfer a large amount",
                         "The transaction from account: " + fromAccountId +
